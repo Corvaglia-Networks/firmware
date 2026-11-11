@@ -1,0 +1,22 @@
+bazel_dep(name = "rules_cc", version = "0.2.28")
+bazel_dep(name = "pico-sdk", version = "2.3.0")
+
+register_toolchains(
+    "@pico-sdk//bazel/toolchain:linux-x86_64-rp2040",
+    "@pico-sdk//bazel/toolchain:linux-x86_64-rp2350",
+    "@pico-sdk//bazel/toolchain:win-x86_64-rp2040",
+    "@pico-sdk//bazel/toolchain:win-x86_64-rp2350",
+    "@pico-sdk//bazel/toolchain:mac-x86_64-rp2040",
+    "@pico-sdk//bazel/toolchain:mac-x86_64-rp2350",
+    "@pico-sdk//bazel/toolchain:mac-aarch64-rp2040",
+    "@pico-sdk//bazel/toolchain:mac-aarch64-rp2350",
+)
+
+bazel_dep(name = "rules_libusb", version = "0.1.0-rc2.bcr.1")
+
+libusb = use_extension("@rules_libusb//:extensions.bzl", "libusb")
+use_repo(libusb, "libusb")
+
+bazel_dep(name = "platforms", version = "1.1.0")
+bazel_dep(name = "picotool", version = "2.3.0")
+bazel_dep(name = "abseil-cpp", version = "20260817.0")

@@ -1,0 +1,5 @@
+build:pico2 --platforms=@pico-sdk//bazel/platform:rp2350
+build:pico2 --@pico-sdk//bazel/config:PICO_BOARD=pico2
+run:host --platforms=@platforms//host
+build:pico2 --@pico-sdk//bazel/config:PICO_TINYUSB_CONFIG=//tile:tusb_config
+build:pico2 --@pico-sdk//bazel/config:PICO_DEFAULT_BINARY_TYPE=no_flash
