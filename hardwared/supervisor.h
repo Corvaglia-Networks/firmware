@@ -1,13 +1,18 @@
 #pragma once
 
+#include <array>
 #include <cstdint>
+#include <memory>
 #include <mutex>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "imager.h"
+#include "lib/socket_server.h"
 #include "lib/tile_protocol.h"
 #include "libusb.h"
+#include "loopback_port.h"
 #include "tile_session.h"
 
 constexpr uint16_t kPicobootVid = 0x2E8A;
@@ -36,12 +41,20 @@ class Supervisor {
   }
 
   void HandleArrival(libusb_device* dev);
+  void HandleDeparture(uint8_t bus, uint8_t address);
+  Port* FindPort(int port_number);
+  void HandleConsoleClient(Connection& conn);
 
   const std::string image_path_;
   libusb_context* ctx_ = nullptr;
 
   std::mutex arrivals_mutex_;
   std::vector<libusb_device*> arrivals_;
+  std::vector<std::pair<uint8_t, uint8_t>> departures_;
+
+  std::vector<std::unique_ptr<TileSession>> sessions_;
 
   Imager imager_;
+  std::vector<std::unique_ptr<LoopbackPort>> ports_;
+  SocketServer console_server_;
 };

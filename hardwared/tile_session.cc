@@ -1,5 +1,8 @@
 #include "tile_session.h"
 
+#include <chrono>
+#include <cstdint>
+
 #include "absl/log/log.h"
 #include "lib/tile_protocol.h"
 
@@ -49,6 +52,8 @@ bool TileSession::Start() {
 void TileSession::Run() {
   unsigned char buf[64];
   bool alive = true;
+  uint64_t heartbeats = 0;
+  auto next_report = std::chrono::steady_clock::now();
 
   while (!stop_) {
     int n = 0;
@@ -73,10 +78,19 @@ void TileSession::Run() {
     const auto* pkt = reinterpret_cast<const tile_packet*>(buf);
     if (pkt->magic != TILE_MAGIC) continue;
 
-    if (pkt->type == TILE_HEARTBEAT && !alive) {
-      LOG(INFO) << "Tile " << int{bus_} << ":" << int{address_}
-                << " heartbeat recovered";
-      alive = true;
+    if (pkt->type == TILE_HEARTBEAT) {
+      ++heartbeats;
+      const auto now = std::chrono::steady_clock::now();
+      if (now >= next_report) {
+        next_report = now + std::chrono::seconds(10);
+        LOG(INFO) << "Tile " << int{bus_} << ":" << int{address_} << " alive, "
+                  << heartbeats << " heartbeats";
+      }
+      if (!alive) {
+        LOG(INFO) << "Tile " << int{bus_} << ":" << int{address_}
+                  << " heartbeat recovered";
+        alive = true;
+      }
     }
   }
 }

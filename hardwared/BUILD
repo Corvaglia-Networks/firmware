@@ -26,11 +26,16 @@ cc_library(
 cc_library(
     name = "supervisor",
     srcs = ["supervisor.cc"],
-    hdrs = ["supervisor.h"],
+    hdrs = [
+        "loopback_port.h",
+        "port.h",
+        "supervisor.h",
+    ],
     copts = ["-fno-exceptions"],
     deps = [
         ":imager",
         ":tile_session",
+        "//lib:socket_server",
         "//lib:tile_protocol",
         "@abseil-cpp//absl/log",
         "@libusb",
