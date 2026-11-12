@@ -1,3 +1,6 @@
+# Copyright (c) 2026 Corvaglia Networks
+# SPDX-License-Identifier: MIT
+
 bazel_dep(name = "rules_cc", version = "0.2.28")
 bazel_dep(name = "pico-sdk", version = "2.3.0")
 

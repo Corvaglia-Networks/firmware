@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Corvaglia Networks
+// SPDX-License-Identifier: MIT
+
 #ifndef TUSB_CONFIG_H_
 #define TUSB_CONFIG_H_
 

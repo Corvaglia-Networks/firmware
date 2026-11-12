@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Corvaglia Networks
+// SPDX-License-Identifier: MIT
+
 #include "imager.h"
 
 #include <spawn.h>

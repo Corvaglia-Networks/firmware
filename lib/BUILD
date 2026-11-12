@@ -1,3 +1,6 @@
+# Copyright (c) 2026 Corvaglia Networks
+# SPDX-License-Identifier: MIT
+
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
